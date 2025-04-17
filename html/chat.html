@@ -1,0 +1,25 @@
+<script src="/client.js" type="module" defer></script>
+<div>
+    <div id="chat">
+        <div id="messages" class="hidden">
+            
+        </div>
+    </div>
+    
+    
+    <div id="reaction-picker" class="reaction-picker">
+        <button class="reaction-emoji" data-emoji="👍">👍</button>
+        <button class="reaction-emoji" data-emoji="❤️">❤️</button>
+        <button class="reaction-emoji" data-emoji="😂">😂</button>
+        <button class="reaction-emoji" data-emoji="😮">😮</button>
+        <button class="reaction-emoji" data-emoji="😢">😢</button>
+        <button class="reaction-emoji" data-emoji="👏">👏</button>
+    </div>
+    
+    <form id="form">
+        <textarea id="input" autocomplete="off" placeholder="Skicka ett meddelande" rows="1"></textarea>
+        <button type="submit" id="send-button" disabled>
+            <span class="icon-send"></span>
+        </button>
+    </form>
+</div>
