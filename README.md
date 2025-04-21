@@ -39,10 +39,11 @@
       - [4.5.1.1 Skicka reaktioner](#4511-skicka-reaktioner)
       - [4.5.1.2 Ta bort reaktioner](#4512-ta-bort-reaktioner)
     - [4.5.2 Återupptagandet av reaktioner](#452-återupptagandet-av-reaktioner)
-
+  
 ## 1. Introduktion
 
-För mitt gymnasiearbet har jag skapat en realtids chattapplikation med möjligheten att redigera, ta bort och reagera till inehåll.
+För mitt gymnasiearbet har jag skapat en realtidschattapplikation med möjligheten att redigera, ta bort och reagera till inehåll.
+Följ stegen på [avsnittet om installation](#5-installation-och-körning) för att testa projektet.
 
 
 
@@ -2348,8 +2349,8 @@ Atta acceptera en konversation sker på exakt samma sätt som att [neka en konve
 
 ## 5. Installation och Körning
 
-Ifall du läser dokkumentationen nära 2025-04-17 så finns det en chans att projektet kör på `https://tjatta.xyz`.
-Ifall den inte gör det får du köra dessa steg:
+En demonstration av projektet körs på `https://tjatta.xyz`.
+Ifall den inte finns tillgänglig, följ dessa steg:
 
 1. Klona projektet från https://github.com/Sniffo5/GymnasieArbetePublik
 2. Installera beroenden med `npm i`
