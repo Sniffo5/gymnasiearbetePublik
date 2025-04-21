@@ -1,6 +1,6 @@
 # Dokumentation för Aron Loreskärs gymnasiearbete
 
-## Inehållsförteckning
+## Innehållsförteckning
 
 [1. Introduktion](#1-introduktion)
 
@@ -39,29 +39,37 @@
       - [4.5.1.1 Skicka reaktioner](#4511-skicka-reaktioner)
       - [4.5.1.2 Ta bort reaktioner](#4512-ta-bort-reaktioner)
     - [4.5.2 Återupptagandet av reaktioner](#452-återupptagandet-av-reaktioner)
+[5. Installation och Körning](#5-installation-och-körning)
+
+[6. Säkerhet](#6-säkerhet)
+
+[7. Framtida Utveckling](#7-framtida-utveckling)
+
+[8. Övrigt](#8-övrigt)
+
   
 ## 1. Introduktion
 
-För mitt gymnasiearbet har jag skapat en realtidschattapplikation med möjligheten att redigera, ta bort och reagera till inehåll.
+För mitt gymnasiearbe har jag skapat en realtidschattapplikation med möjligheten att redigera, ta bort och reagera till inehåll.
 Följ stegen på [avsnittet om installation](#5-installation-och-körning) för att testa projektet.
 
 
 
 ## 2. Teknisk Översikt
 
-- Programeringspråk:
+- Programmeringspråk:
   - JavaScript
   - Html
   - CSS
   - SQL
 - Bibliotek
 
-  - **Bcrypt** - Bcrypt används för att hasha lösenord
-  - **dotenv** - Miljövariabler används för att undvika känsliga uppgifter skrivs i klartext
-  - **escape-html** - Används för att förstöra försök till XSS attacker genom att då sanitisera inehåll innan den visas med hjälp av escape-html.
+  - **Bcrypt** - Bcrypt används för att hasha lösenord.
+  - **dotenv** - Miljövariabler används för att undvika att känsliga uppgifter skrivs i klartext
+  - **escape-html** - Används för att förstöra XSS attacker genom att sanitisera innehåll användare publicerar.
   - **express** - Används för att skapa en server och hantera HTTP-förfrågningar. Express är ett ramverk för Node.js som gör det enklare att bygga webbapplikationer.
   - **express-session** - Används för att hantera sessioner och autentisering. Denna används för att hålla reda på inloggade användare och deras sessioner.
-  - **mysql2** - Används för att kommunicera med MySQL-databasen. Denna modul gör det möjligt att köra SQL-frågor och hämta data från databasen. Variation 2 används då den möjliggör för att använda async/await syntaxen.
+  - **mysql2** - Används för att kommunicera med MySQL-databasen. Denna modul gör det möjligt att köra SQL-frågor och hämta data från databasen. Variation 2 används då den möjliggör att använda async/await.
   - **socket.io** - Används för att skapa en realtids uppkoppling mellan servern och klienten. Fördelen med Socket.io är att den har redundans då den kan använda två olika teknologier beroende på ifall någon itne fungerar.
   - **uuid** - Används för att skapa unika identifikationer som är så gott som garanterade att vara unika.
   - **validator** - Används för att validera mejl addressers riktighet.
@@ -100,8 +108,8 @@ Följ stegen på [avsnittet om installation](#5-installation-och-körning) för 
 
   Varje tabell har ett specifikt syfte och relationer mellan tabellerna är definierade med hjälp av främmande nycklar.
   En främmande nyckel (Foreign Key) är en kolumn eller en uppsättning kolumner i en tabell som refererar till den primära nyckeln i en annan tabell. Den används för att skapa en relation mellan två tabeller och säkerställa dataintegritet. En främmande nyckel kan också kallas referensnyckel eller kopplingsnyckel. När en främmande nyckel används i en tabell, begränsar den värdena i den kolumnen till de värden som finns i den refererade tabellen. Detta säkerställer att endast giltiga data kan införas i tabellen och förhindrar inkonsekvenser i databasen.
-  Främmande nycklar möjligör även fär att hämta relaterad information från flera tabeller med hjälp av JOIN-frågor. Detta är särskilt användbart i komplexa databaser.
-  Främmande nycklar faciliterar att till exempel ifall en användare tas bort så tas även alla meddelanden och reaktioner som är kopplade till den användaren bort. Detta görs genom att sätta `ON DELETE CASCADE` på främmande nycklarna.
+  Främmande nycklar möjliggör även för att hämta relaterad information från flera tabeller med hjälp av JOIN-frågor. Detta är särskilt användbart i komplexa databaser.
+  Främmande nycklar faciliterar att till exempel ifall en användare tas bort så tas även alla meddelanden och reaktioner som är kopplade till den användaren bort. Detta görs genom att sätta `ON DELETE CASCADE` på de främmande nycklarna
 
   ---
 
@@ -251,7 +259,7 @@ app.use(express.static("client"));
 app.use(express.static("public"));
 app.use(express.static("images"));
 ```
-Här skapas en Express-app. `express.urlencoded` används för att parsa URL-kodade data till objekt tillänglig via req.body, medan `express.static` används för att servera statiska filer som CSS och bilder.
+Här skapas en Express-app. `express.urlencoded` används för att parsa URL-kodade data till objekt tillgänglig via req.body, medan `express.static` används för att servera statiska filer som CSS och bilder.
 
 ---
 ```javascript
@@ -274,7 +282,7 @@ const sessionMiddleware = session({
 });
 ```
 Här definieras en session-middleware med hjälp av express-session. Denna middleware används för att hantera användarsessioner i applikationen.
-`secret` En hemlig sträng som används för att signera session-ID:n i cookies. Detta säkerställer att cookies inte kan manipuleras av klienten.
+`secret` är en hemlig sträng som används för att signera session-ID:n i cookies. Detta säkerställer att cookies inte kan manipuleras av klienten.
 
 `resave`: Om false sparas inte sessionen om den inte har ändrats. Detta minskar onödiga skrivningar till sessionlagringen.
 saveUninitialized: Om true sparas en ny session även om den inte innehåller någon data. Detta kan vara användbart för att spåra användare innan de loggar in.
@@ -349,7 +357,7 @@ function render(content) {
 }
 ```
 
-Här definieras funktionen `render()`. Funktionen tar in en variabel som den döper till `content`. Sedan hämtar den in html mallen `index.html`. I mallen finns `<main>**content**</main>` i body. Funktionen skapar då en variabel vid namn html som den fyller med `index.html` i strängformat. Därefter definieras om inehållet av variabeln till vad den nyss blev deklarerad till men med en skillnad, `**content**` har byts ut till vad variabeln content inehåller. Därefter returneras `html` som nu inehåller mallen med det nya inehållet funktionen tog emot.
+Här definieras funktionen `render()`. Funktionen tar in en variabel som den döper till `content`. Sedan hämtar den in HTML-mallen `index.html`. I mallen finns `<main>**content**</main>` i body. Funktionen skapar då en variabel vid namn html som den fyller med `index.html` i strängformat. Därefter definieras om innehållet av variabeln till vad den nyss blev deklarerad till men med en skillnad, `**content**` har byts ut till vad variabeln content inehåller. Därefter returneras `html` som nu inehåller mallen med det nya inehållet funktionen tog emot.
 
 ---
 
@@ -425,12 +433,10 @@ async function closePool() {
 
 ### 4.3. Autentisering
 
-
-
-Autensiering är en viktig del av applikationen för att säkerställa att endast registrerade användare kan använda chattfunktionerna. All autentisering sker i `auth.js` och importeras till `index.js`. Här är en översikt över autentiseringens funktionalitet:
+Autentisering är en viktig del av applikationen för att säkerställa att endast registrerade användare kan använda chattfunktionerna. All autentisering sker i `auth.js` och importeras till `index.js`. Här är en översikt över autentiseringens funktionalitet:
 
 #### **4.3.1. Registrering**
-När en användrare tar sig till /register, antingen via att de har sökt sig in dit eller följt en länk dit så körs funktionerna:
+När en användare tar sig till /register, antingen via att de har sökt sig in dit eller följt en länk dit så körs funktionerna:
 `showRegister`. När en användare skickar en post förfrågan till `/register` körs `register`. Dessa funktioner hanterar registrering av nya användare. 
 
 ---
@@ -558,7 +564,7 @@ Denna funktion hanterar inloggningen av användare. Den tar emot data från ett 
 ---
 
 ### 4.4. Chattfunktionalitet
-Huvuddelen av projektet ligger i hur chatterna fungerar, hur man skickar medelanden och i realtid visa det för andra användare. Hur databasen uppdateras för varje medelande som skickas och datan förändras när medelanden redigeras eller tas bort. Detta är för att när användaren returnerar till chatten ska de kunna se de medelanden de hade skickat förra gången och fortsätta konversationen. Varje medelande skickas som en pingpong boll mellan klienten och servern. Därför finns det många olika filer att gå genom som alla påverkar chattfunkionaliteten.
+Huvuddelen av projektet ligger i hur chatterna fungerar, hur man skickar meddelanden och i realtid visa det för andra användare. Hur databasen uppdateras för varje medelande som skickas och datan förändras när meddelanden redigeras eller tas bort. Detta är för att när användaren returnerar till chatten ska de kunna se de medelanden de hade skickat förra gången och fortsätta konversationen. Varje medelande skickas som en pingpong-boll mellan klienten och servern. Därför finns det många olika filer att gå genom som alla påverkar chattfunkionaliteten.
 
 Först kommer jag diskutera hur medelanden fungerar på klient sidan och hur den fungerar i symbios med servern för att uppdatera alla klienters vy samtidigt. [Realtids konversationer](#441-realtids-konversationer-och-dess-funktionalitet)
 
@@ -599,7 +605,7 @@ socketClient.emit("join", conversationId);
 const input = document.getElementById("input");
 input.addEventListener("keydown", handleKeyDown);
 ```
-Vi hämtar vilket element som har id:t `input` det är inmatningsrutan för att skicka ett meddelandet i en chatt. Därefter lägger vi till en händelse avlyssnare på när klienten trycker på en tagent på deras tagentbord. Ifall de gör det kör vi `handleKeyDown()`.
+Vi hämtar vilket element som har id:t `input`, det är inmatningsrutan för att skicka ett meddelande i en chatt. Därefter lägger vi till en händelse avlyssnare på när klienten trycker på en tagent på deras tagentbord. Ifall det sker kör vi `handleKeyDown()`.
 
 ```javascript
 function handleKeyDown(e) {
@@ -609,9 +615,9 @@ function handleKeyDown(e) {
   }
 }
 ```
-Denna funktion hanterar tangenttryckningar i inmatningsfältet. Om användaren trycker på `Enter` utan att hålla nere `Shift` skickas meddelandet direkt via `handleFormSubmit()`. Detta gör det enkelt att skicka meddelanden snabbt. Detta är också till för att man ska kunna skriva på olika rader i ett medelanden utan att det skickas iväg innan man är klar, ifall man vill ha en ny rad kan man dp enkelt trycka ner `Shift` och `Enter`.
-e i funktionen står för event objektet som skickas med i `keydown` händelser. Vi använder den för att få information om vad för knappar som trycks och påverka deras funktioner.
-`preventDefault()` i denna funktion ser till så att den normala funktionen för `ENTER` inte körs (alltså skapa en ny rad), vi vill ju att de inte ska ske då vi ska skicka iväg medelandet med `handleFormSubmit()` istället för att forsätta skriva.
+Denna funktion hanterar tangenttryckningar i inmatningsfältet. Om användaren trycker på `Enter` utan att hålla nere `Shift` skickas meddelandet direkt via `handleFormSubmit()`. Detta gör det enkelt att skicka meddelanden snabbt. Detta är också till för att man ska kunna skriva på olika rader i ett meddelande utan att det skicka iväg det innan man är klar, ifall man vill ha en ny rad kan man då enkelt trycka ner `Shift` och `Enter`.
+`e` i funktionen står för event objektet som skickas med i `keydown`-händelser. Vi använder det för att få information om vad för knappar som trycks och påverkar dess funktionalitet.
+`preventDefault()` i denna funktion ser till så att den normala funktionen för `ENTER` inte körs (alltså skapa en ny rad), vi vill att de inte ska ske då vi skickar iväg medelandet med `handleFormSubmit()` istället för att forsätta skriva.
 
 ---
 ```javascript
@@ -686,7 +692,7 @@ function scrollToBottom() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 ```
-`ScrollToBottom()` ser till så att klienten alltid ser det senaste medelandet. Den körs när nya medelanden skickas och då skickar användaren ner till att se det senaste. På så sätt slipper de skrolla ner konstant. Den skrollar från toppen av `messagesDiv` (elementet där alla meddelanden finns i) med höjden av elementet. Alltså den skrollar till botten av elementet.
+`ScrollToBottom()` ser till att klienten alltid ser det senaste medelandet. Den körs när nya medelanden skickas och då skickar användaren ner till att se det senaste. På så sätt slipper de skrolla ner konstant. `ScrollToBottom()` skrollar från toppen av `messagesDiv` (elementet där alla meddelanden finns i) med höjden av elementet. Alltså den skrollar till botten av elementet.
 
 ---
 ```javascript
@@ -725,7 +731,7 @@ function handleFormSubmit(e) {
 ```
 Resan för ett meddelandet börjar med `handleFormSubmit()`. Här tar vi emot medelandet från `input.value`.
 Ifall det finns ett meddelandet så skickar vi ett `"socket"` event vid namn "chat", vi skickar med ett objekt som inehåller meddelandet och konversations-id:t.
-Därefter så tömmer vi input och återställer utseendet till standard för när textrutan är tom.
+Därefter så tömmer vi input och återställer utseendet till standard när textrutan är tom.
 
 ---
 ```javascript
@@ -1155,7 +1161,7 @@ efter allt så tas text rutan bort och kvar blir ett meddelande, antingen det ga
   });
 ```
 
-På servern sidan (`index.js`) så körs dessa kodrader ifall det tas emot en `"editMessage"` händelse.
+På serversidan (`index.js`) så körs de här kodraderna om en `"editMessage"` händelse sker.
 
 Meddelande id:t, nya meddelandet och konversations id:t extraheras ur den medskickade datan. Vi gör det med `objektdestrukturering` så vi slipper hantera alla dessa värden som en del av data objektet. Istället för att skriva t.ex. `data.messageID` så räcker det nu att skriva `messageID`.
 
