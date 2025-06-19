@@ -1,4 +1,4 @@
-# Dokumentation för Aron Loreskärs gymnasiearbete
+# Dokumentation för gymnasiearbete
 
 ## Innehållsförteckning
 
